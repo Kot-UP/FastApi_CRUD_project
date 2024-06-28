@@ -1,0 +1,39 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<section class="container-fluid"> {#Эта строка открывает раздел (section) на странице, который будет занимать всю ширину экрана#}
+<form method="post" action="/"> {#Эта строка открывает форму (form) для отправки данных на сервер. Атрибут method указывает, что данные будут отправляться методом POST, а атрибут action указывает, что данные будут отправляться на корневой URL (/) сайта.#}
+    <div class="col-auto"> {#Эта строка открывает блок (div) с классом col-auto, который будет автоматически подстраиваться под ширину содержимого.#}
+        <div class="input-group mb-3"> {# Эта строка открывает блок (div) с классом input-group, который будет группировать элементы ввода, и mb-3, который добавляет отступ внизу блока.#}
+            <input type="text" name="message" value="{{ text }}" class="form-control" {#Эта строка поле ввода текста (input) с типом text. Атрибут name указывает, что это поле будет называться message. Атрибут value указывает, что поле будет инициализировано значением {{ text }}, которое будет заменено на реальное значение при рендеринге страницы. Атрибут class указывает, что это поле будет иметь стиль form-control#}
+                   placeholder="Add new message" aria-label="Add message" {#Атрибут placeholder указывает, что в поле будет отображаться текст "Add new message" до ввода данных#}
+                   aria-describedby="button-addon2"/> {#Атрибуты aria-label и aria-describedby добавляют доступность для пользователей с ограниченными возможностями.#}
+            <button class="btn btn-outline-primary" type="submit" id="button-addon2"
+                    data-mdb-ripple-color="dark">Add {#Эта строка создает кнопку (button) с классом btn и btn-outline-primary, которая будет иметь стиль кнопки с контуром. Атрибут type указывает, что это кнопка отправки формы. Атрибут id указывает, что кнопка будет иметь идентификатор button-addon2. Атрибут data-mdb-ripple-color добавляет эффект рipples (ripple effect) при нажатии кнопки#}
+            </button>
+        </div>
+    </div>
+</form>
+</section>
+{% if message %}
+<article class="card container-fluid">
+    <br/>
+    <h2>ID: {{ message.id }}</h2>
+    <p>
+        <strong>Text: {{ message.text }}</strong>
+    </p>
+</article>
+{% else %}
+<section class="container-fluid">
+    <h2 align="center">Messages</h2>
+    <br>
+    <div class="card">
+        <ul class="list-group list-group-flush">
+            {% for message in messages %}
+            <li class="list-group-item">{{ message.id }}. <a href="/message/{{message.id}}">{{ message.text }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
